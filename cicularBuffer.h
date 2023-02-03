@@ -7,7 +7,9 @@
 void Buffer_init(void);
 void Buffer_cleanup(void);
 
-void Buffer_add(double value);
+void Buffer_insert(double value);
+
+double* Buffer_getValues(int amount);
 
 void Buffer_resize(int size);
 
