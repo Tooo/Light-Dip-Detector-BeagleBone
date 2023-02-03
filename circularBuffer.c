@@ -48,32 +48,38 @@ void Buffer_insert(double value)
     {
         buffer[bufferIndex] = value;
         bufferIndex++;
-        if (bufferIndex >= bufferSize) {
-            bufferIndex = 0;
-        }
+        bufferIndex = bufferIndex % bufferSize;
     }
     pthread_mutex_unlock(&bufferMutex);
 }
 
 double* Buffer_getValues(int amount)
 {
-    if (amount >= bufferCount) {
-        amount = bufferCount;
+    if (amount == 0) {
+        return NULL;
     }
 
-    double* values = malloc(amount*sizeof(*buffer));
+    double* values;
 
     pthread_mutex_lock(&bufferMutex);
     {
-        int remaining = 0;
-
-        int valuesIndex = 0;
-        for (int i = 0; i<remaining; i++) {
-            values[valuesIndex] = buffer[i];
+        if (amount >= bufferCount) {
+            amount = bufferCount;
         }
 
+        values = malloc(amount*sizeof(*buffer));
+
+        int index = bufferIndex;
+    
+        for (int i = 0; i<amount; i++) {
+            values[i] = buffer[index];
+            index++;
+            index = index % bufferSize;
+        }
     }
     pthread_mutex_unlock(&bufferMutex);
+
+    return values;
 }
 
 void Buffer_resize(int size)
@@ -84,7 +90,33 @@ void Buffer_resize(int size)
 
     pthread_mutex_lock(&bufferMutex);
     {
-        
+        tempBuffer = malloc(size*sizeof(*buffer));
+
+        for (int i = 0; i<size; i++) {
+            tempBuffer[i] = 0;
+        }
+
+        int amount = size;
+
+        if (size > bufferCount) {
+            amount = bufferCount;
+        }
+
+        int index = bufferIndex;
+
+        for (int i = 0; i<amount; i++) {
+            tempBuffer[i] = buffer[index];
+            index++;
+            index = index % bufferSize;
+        }
+
+        Buffer_clearBuffer();
+        free(buffer);
+
+        buffer = tempBuffer;
+        tempBuffer = NULL;
+        bufferSize = size;
+        bufferIndex = amount % size;
     }
     pthread_mutex_unlock(&bufferMutex);
 }
