@@ -57,8 +57,8 @@ void Buffer_insert(double value)
 
 double* Buffer_getValues(int amount)
 {
-    if (amount >= bufferSize) {
-        amount = bufferSize;
+    if (amount >= bufferCount) {
+        amount = bufferCount;
     }
 
     double* values = malloc(amount*sizeof(*buffer));
@@ -78,6 +78,10 @@ double* Buffer_getValues(int amount)
 
 void Buffer_resize(int size)
 {
+    if (size == bufferSize) {
+        return;
+    }
+
     pthread_mutex_lock(&bufferMutex);
     {
         
