@@ -117,6 +117,7 @@ void Buffer_resize(int size)
         tempBuffer = NULL;
         bufferSize = size;
         bufferIndex = amount % size;
+        bufferCount = amount;
     }
     pthread_mutex_unlock(&bufferMutex);
 }

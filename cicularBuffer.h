@@ -1,5 +1,5 @@
 // circularBuffer.h
-
+// Manages a circular buffer
 #ifndef _CIRCULARBUFFER_H_
 #define _CIRCULARBUFFER_H_
 
