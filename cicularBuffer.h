@@ -9,10 +9,12 @@ void Buffer_cleanup(void);
 
 void Buffer_insert(double value);
 
-double* Buffer_getValues(int amount);
+double* Buffer_getValues(int* amount);
 
 void Buffer_resize(int size);
 
 int Buffer_getCount(void);
+
+int Buffer_getSize(void);
 
 #endif

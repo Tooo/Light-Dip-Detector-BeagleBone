@@ -53,9 +53,9 @@ void Buffer_insert(double value)
     pthread_mutex_unlock(&bufferMutex);
 }
 
-double* Buffer_getValues(int amount)
+double* Buffer_getValues(int* amount)
 {
-    if (amount == 0) {
+    if (*amount == 0) {
         return NULL;
     }
 
@@ -63,15 +63,15 @@ double* Buffer_getValues(int amount)
 
     pthread_mutex_lock(&bufferMutex);
     {
-        if (amount >= bufferCount) {
-            amount = bufferCount;
+        if (*amount >= bufferCount) {
+            *amount = bufferCount;
         }
 
-        values = malloc(amount*sizeof(*buffer));
+        values = malloc(*amount*sizeof(*buffer));
 
         int index = bufferIndex;
     
-        for (int i = 0; i<amount; i++) {
+        for (int i = 0; i<*amount; i++) {
             values[i] = buffer[index];
             index++;
             index = index % bufferSize;
@@ -125,6 +125,11 @@ void Buffer_resize(int size)
 int Buffer_getCount(void)
 {
     return bufferCount;
+}
+
+int Buffer_getSize(void)
+{
+    return bufferSize;
 }
 
 static void Buffer_clearBuffer(void)
