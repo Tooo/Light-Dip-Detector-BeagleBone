@@ -4,7 +4,7 @@
 
 #include "potThread.h"
 #include "potentiometer.h"
-#include "sampler.h"
+#include "samplerThread.h"
 
 static pthread_t potThread;
 static void* Pot_threadFunction(void* args);

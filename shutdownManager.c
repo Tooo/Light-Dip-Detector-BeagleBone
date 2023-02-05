@@ -1,7 +1,7 @@
 #include <pthread.h>
 
 #include "shutdownManager.h"
-#include "sampler.h"
+#include "samplerThread.h"
 #include "potThread.h"
 #include "displayThread.h"
 

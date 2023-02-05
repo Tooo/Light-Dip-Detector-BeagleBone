@@ -1,7 +1,7 @@
 #include <pthread.h>
 #include <unistd.h>
 
-#include "sampler.h"
+#include "samplerThread.h"
 #include "cicularBuffer.h"
 #include "lightSensor.h"
 
