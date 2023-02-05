@@ -4,6 +4,7 @@
 #include "samplerThread.h"
 #include "potThread.h"
 #include "displayThread.h"
+#include "outputThread.h"
 
 static pthread_mutex_t shutdownMutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t shutdownCond = PTHREAD_COND_INITIALIZER;
@@ -13,10 +14,12 @@ void Shutdown_init(void)
     Sampler_startSampling();
     Pot_startInputing();
     Display_startDisplaying();
+    Output_startOutputing();
 }
 
 void Shutdown_cleanup(void)
 {
+    Output_stopOutputing();
     Display_stopDisplaying();
     Pot_stopInputing();
     Sampler_stopSampling();
