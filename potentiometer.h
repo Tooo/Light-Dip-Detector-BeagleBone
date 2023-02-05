@@ -6,6 +6,6 @@
 void Pot_init(void);
 void Pot_cleanup(void);
 
-double Pot_getVoltage(void);
+int Pot_getValue(void);
 
 #endif
