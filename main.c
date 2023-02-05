@@ -2,7 +2,7 @@
 // Main Thread of Light Sampler program
 
 #include "shutdownManager.h"
-#include "cicularBuffer.h"
+#include "circularBuffer.h"
 #include "lightSensor.h"
 #include "potentiometer.h"
 #include "ledDisplay.h"
