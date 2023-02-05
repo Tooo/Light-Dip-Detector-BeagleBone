@@ -1,4 +1,5 @@
 #include <pthread.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -23,6 +24,15 @@ static void* Output_threadFunction(void* args)
     while(1) {
         printf("Sample Count: %d", Sampler_getNumSamplesInHistory());
         printf(" Size: %d\n", Sampler_getHistorySize());
+        int length = 10;
+        double* history = Sampler_getHistory(&length);
+
+        for (int i = 0; i < length; i++) {
+            printf("%f ", history[i]);
+        }
+        printf("\n");
+        free(history);
+
         sleep(1);
     }
     return NULL;

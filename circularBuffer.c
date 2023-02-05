@@ -72,12 +72,14 @@ double* Buffer_getValues(int* amount)
 
         values = malloc(*amount*sizeof(*buffer));
 
-        int index = bufferIndex;
+        int index = bufferIndex-1;
     
         for (int i = 0; i<*amount; i++) {
+            if (index <= 0) {
+                index = bufferSize-1;
+            }
             values[i] = buffer[index];
-            index++;
-            index = index % bufferSize;
+            index--;
         }
     }
     pthread_mutex_unlock(&bufferMutex);
@@ -93,7 +95,7 @@ void Buffer_resize(int size)
 
     pthread_mutex_lock(&bufferMutex);
     {
-        tempBuffer = malloc(size*sizeof(*buffer));
+        tempBuffer = malloc((size)*sizeof(*buffer));
 
         for (int i = 0; i<size; i++) {
             tempBuffer[i] = 0;
