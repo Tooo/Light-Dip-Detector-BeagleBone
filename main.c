@@ -2,6 +2,10 @@
 // Main Thread of Light Sampler program
 
 #include "shutdownManager.h"
+#include "cicularBuffer.h"
+#include "lightSensor.h"
+#include "potentiometer.h"
+#include "ledDisplay.h"
 
 static void main_init(void);
 static void main_cleanup(void);
@@ -18,10 +22,18 @@ int main(void)
 
 static void main_init(void)
 {
+    Buffer_init();
+    LightSensor_init();
+    Pot_init();
+    Display_init();
     Shutdown_init();
 }
 
 static void main_cleanup(void)
 {
     Shutdown_cleanup();
+    Display_cleanup();
+    Pot_cleanup();
+    LightSensor_cleanup();
+    Buffer_cleanup();
 }

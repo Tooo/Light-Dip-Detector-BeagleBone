@@ -1,19 +1,25 @@
 #include <pthread.h>
 
 #include "shutdownManager.h"
+#include "sampler.h"
+#include "potThread.h"
+#include "displayThread.h"
 
 static pthread_mutex_t shutdownMutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t shutdownCond = PTHREAD_COND_INITIALIZER;
 
-
 void Shutdown_init(void)
 {
-    // nothing
+    Sampler_startSampling();
+    Pot_startInputing();
+    Display_startDisplaying();
 }
 
 void Shutdown_cleanup(void)
 {
-    // nothing
+    Display_stopDisplaying();
+    Pot_stopInputing();
+    Sampler_stopSampling();
 }
 
 void Shutdown_wait(void)
