@@ -3,9 +3,9 @@
 #ifndef _POTENTIOMETER_H_
 #define _POTENTIOMETER_H_
 
-void Potentiometer_init(void);
-void Potentiometer_cleanup(void);
+void Pot_init(void);
+void Pot_cleanup(void);
 
-int Potentiometer_getValue(void);
+double Pot_getVoltage(void);
 
 #endif
