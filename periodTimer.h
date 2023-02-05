@@ -40,6 +40,8 @@ void Period_cleanup(void);
 // and compute the timing statistics for this periodic event.
 void Period_markEvent(enum Period_whichEvent whichEvent);
 
+void Timer_sleepForMs(long long delayInMs);
+
 // Fill the `pStats` struct, which must be allocated by the calling
 // code, with the statistics about the periodic event `whichEvent`.
 // This function is threadsafe, and may be called by any thread.

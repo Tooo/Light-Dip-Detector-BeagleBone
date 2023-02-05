@@ -6,9 +6,10 @@
 
 #include "periodTimer.h"
 
+static const long long NS_PER_MS = 1000 * 1000;
+static const long long NS_PER_SECOND = 1000000000;
+
 // Written by Brian Fraser
-
-
 
 // Data collected
 typedef struct {
@@ -130,9 +131,15 @@ static void updateStats(
     pStats->numSamples = pData->timestampCount;
 }
 
+void Timer_sleepForMs(long long delayInMs)
+{
+    long long delayNs = delayInMs * NS_PER_MS;
+    int seconds = delayNs / NS_PER_SECOND;
+    int nanoseconds = delayNs % NS_PER_SECOND;
 
-
-
+    struct timespec reqDelay = {seconds, nanoseconds};
+    nanosleep(&reqDelay, (struct timespec *) NULL);
+}
 
 // Timing function
 static long long getTimeInNanoS(void) 
