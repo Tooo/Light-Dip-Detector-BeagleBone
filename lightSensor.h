@@ -5,6 +5,6 @@
 void LightSensor_init(void);
 void LightSensor_cleanup(void);
 
-void LightSensor_getValue(void);
+double LightSensor_getVoltage(void);
 
 #endif
