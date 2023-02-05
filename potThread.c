@@ -23,6 +23,9 @@ static void* Pot_threadFunction(void* args)
 {
     while(1) {
         int value = Pot_getValue();
+        if (value == 0) {
+            value = 1;
+        }
         Sampler_setHistorySize(value);
         sleep(1);
     }

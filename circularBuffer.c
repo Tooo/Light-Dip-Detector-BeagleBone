@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-#include "cicularBuffer.h"
+#include "circularBuffer.h"
 
 static pthread_mutex_t bufferMutex = PTHREAD_MUTEX_INITIALIZER;
 
@@ -49,6 +49,9 @@ void Buffer_insert(double value)
         buffer[bufferIndex] = value;
         bufferIndex++;
         bufferIndex = bufferIndex % bufferSize;
+        if (bufferCount < bufferSize) {
+            bufferCount++;
+        }
     }
     pthread_mutex_unlock(&bufferMutex);
 }

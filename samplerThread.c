@@ -2,8 +2,9 @@
 #include <unistd.h>
 
 #include "samplerThread.h"
-#include "cicularBuffer.h"
+#include "circularBuffer.h"
 #include "lightSensor.h"
+#include "periodTimer.h"
 
 static double sampleTotalAmount = 0;
 static long long sampleTotalTaken = 0;
@@ -59,7 +60,7 @@ static void* Sampler_threadFunction(void* args)
         Buffer_insert(voltage);
         sampleTotalAmount += voltage;
         sampleTotalTaken++;
-        sleep(1);
+        Timer_sleepForMs(1);
     }
     return NULL;
 }
