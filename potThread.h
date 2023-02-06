@@ -1,5 +1,6 @@
 // potThread.h
-// Manages Potentiometer Thread
+// Module to manage potentiometer thread
+// Thread looping once a second to resize buffer with pot value
 #ifndef _POT_THREAD_H_
 #define _POT_THREAD_H_
 

@@ -1,4 +1,6 @@
 // ledDisplay.h
+// Module to manage LED Display
+// Thread looping to set digits on display
 #ifndef _LED_DISPLAY_H_
 #define _LED_DISPLAY_H_
 

@@ -1,5 +1,5 @@
 // system.h
-// Functions that manages files and comands
+// Module to manage files and commands
 #ifndef SYSTEM_H_
 #define SYSTEM_H_
 

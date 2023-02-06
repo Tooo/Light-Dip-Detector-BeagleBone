@@ -1,5 +1,6 @@
 // outputThread.h
-// Manages Output Thread
+// Module to manage outputs and output thread
+// Thread looping each section to output information
 #ifndef _OUTPUT_THREAD_H_
 #define _OUTPUT_THREAD_H_
 
