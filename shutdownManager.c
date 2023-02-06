@@ -8,9 +8,11 @@
 
 static pthread_mutex_t shutdownMutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t shutdownCond = PTHREAD_COND_INITIALIZER;
+static bool isShuttingDown;
 
 void Shutdown_init(void)
-{
+{   
+    isShuttingDown = false;
     Sampler_startSampling();
     Pot_startInputing();
     Display_startDisplaying();
@@ -36,9 +38,15 @@ void Shutdown_wait(void)
 
 void Shutdown_trigger(void)
 {
+    isShuttingDown = true;
     pthread_mutex_lock(&shutdownMutex);
     {
         pthread_cond_signal(&shutdownCond);
     }
     pthread_mutex_unlock(&shutdownMutex);
+}
+
+bool Shutdown_isShuttingDown(void)
+{
+    return isShuttingDown;
 }

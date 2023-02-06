@@ -5,6 +5,7 @@
 #include "circularBuffer.h"
 #include "lightSensor.h"
 #include "periodTimer.h"
+#include "shutdownManager.h"
 
 static double sampleTotalAmount = 0;
 static long long sampleTotalTaken = 0;
@@ -54,7 +55,7 @@ long long Sampler_getNumSamplesTaken(void)
 
 static void* Sampler_threadFunction(void* args)
 {
-    while (1)
+    while (!Shutdown_isShuttingDown())
     {
         double voltage = LightSensor_getVoltage();
         Buffer_insert(voltage);

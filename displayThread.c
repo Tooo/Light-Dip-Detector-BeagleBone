@@ -2,6 +2,7 @@
 
 #include "displayThread.h"
 #include "ledDisplay.h"
+#include "shutdownManager.h"
 
 static pthread_t displayThread;
 static void* Display_threadFunction(void* args);
@@ -18,7 +19,7 @@ void Display_stopDisplaying(void)
 
 static void* Display_threadFunction(void* args)
 {
-    while(1) {
+    while(!Shutdown_isShuttingDown()) {
 
     }
     return NULL;

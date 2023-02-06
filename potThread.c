@@ -5,6 +5,7 @@
 #include "potThread.h"
 #include "potentiometer.h"
 #include "samplerThread.h"
+#include "shutdownManager.h"
 
 static pthread_t potThread;
 static void* Pot_threadFunction(void* args);
@@ -21,7 +22,7 @@ void Pot_stopInputing(void)
 
 static void* Pot_threadFunction(void* args)
 {
-    while(1) {
+    while(!Shutdown_isShuttingDown()) {
         int value = Pot_getValue();
         if (value == 0) {
             value = 1;

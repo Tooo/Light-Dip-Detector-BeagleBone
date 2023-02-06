@@ -5,6 +5,7 @@
 
 #include "outputThread.h"
 #include "samplerThread.h"
+#include "shutdownManager.h"
 
 static pthread_t outputThread;
 static void* Output_threadFunction(void* args);
@@ -21,7 +22,7 @@ void Output_stopOutputing(void)
 
 static void* Output_threadFunction(void* args)
 {
-    while(1) {
+    for (int j=0; j < 5; j++) {
         printf("Sample Count: %d", Sampler_getNumSamplesInHistory());
         printf(" Size: %d\n", Sampler_getHistorySize());
         int length = 10;
@@ -35,5 +36,6 @@ static void* Output_threadFunction(void* args)
 
         sleep(1);
     }
+    Shutdown_trigger();
     return NULL;
 }

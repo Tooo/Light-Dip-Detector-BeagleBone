@@ -1,6 +1,8 @@
 // main.c
 // Main Thread of Light Sampler program
 
+#include <stdio.h>
+
 #include "shutdownManager.h"
 #include "circularBuffer.h"
 #include "lightSensor.h"
@@ -15,7 +17,6 @@ int main(void)
     main_init();
 
     Shutdown_wait();
-
     main_cleanup();
     return 0;
 }
@@ -32,6 +33,7 @@ static void main_init(void)
 static void main_cleanup(void)
 {
     Shutdown_cleanup();
+    printf("cleanup\n");
     Display_cleanup();
     Pot_cleanup();
     LightSensor_cleanup();
