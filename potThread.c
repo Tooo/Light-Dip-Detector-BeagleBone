@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include <pthread.h>
-#include <unistd.h>
 
 #include "potThread.h"
 #include "potentiometer.h"
 #include "samplerThread.h"
 #include "shutdownManager.h"
+#include "periodTimer.h"
 
 static pthread_t potThread;
 static void* Pot_threadFunction(void* args);
@@ -28,7 +28,7 @@ static void* Pot_threadFunction(void* args)
             value = 1;
         }
         Sampler_setHistorySize(value);
-        sleep(1);
+        Timer_sleepForMs(1000);
     }
     return NULL;
 }
