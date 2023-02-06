@@ -13,8 +13,8 @@ void System_readFile(char* fileName, char* buffer);
 void System_writeFile(char* fileName, char* buffer);
 
 // I2C functions
-int initI2cBus(char* bus, int address);
-void writeI2cReg(int i2cFileDesc, unsigned char regAddr, unsigned char value);
-unsigned char readI2cReg(int i2cFileDesc, unsigned char regAddr);
+int System_initI2cBus(char* bus, int address);
+void System_writeI2cReg(int i2cFileDesc, unsigned char regAddr, unsigned char value);
+unsigned char System_readI2cReg(int i2cFileDesc, unsigned char regAddr);
 
 #endif

@@ -63,7 +63,7 @@ void System_writeFile(char* fileName, char* buffer)
     fclose(pFile);
 }
 
-int initI2cBus(char* bus, int address)
+int System_initI2cBus(char* bus, int address)
 {
 	int i2cFileDesc = open(bus, O_RDWR);
 	if (i2cFileDesc < 0) {
@@ -80,7 +80,7 @@ int initI2cBus(char* bus, int address)
 	return i2cFileDesc;
 }
 
-void writeI2cReg(int i2cFileDesc, unsigned char regAddr, unsigned char value)
+void System_writeI2cReg(int i2cFileDesc, unsigned char regAddr, unsigned char value)
 {
 	unsigned char buff[2];
 	buff[0] = regAddr;
@@ -92,7 +92,7 @@ void writeI2cReg(int i2cFileDesc, unsigned char regAddr, unsigned char value)
 	}
 }
 
-unsigned char readI2cReg(int i2cFileDesc, unsigned char regAddr)
+unsigned char System_readI2cReg(int i2cFileDesc, unsigned char regAddr)
 {
 	// To read a register, must first write the address
 	int res = write(i2cFileDesc, &regAddr, sizeof(regAddr));
