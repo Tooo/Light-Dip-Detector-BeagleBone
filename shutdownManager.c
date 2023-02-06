@@ -3,7 +3,7 @@
 #include "shutdownManager.h"
 #include "samplerThread.h"
 #include "potThread.h"
-#include "displayThread.h"
+#include "ledDisplay.h"
 #include "outputThread.h"
 
 static pthread_mutex_t shutdownMutex = PTHREAD_MUTEX_INITIALIZER;

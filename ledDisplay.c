@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <pthread.h>
 
 #include "ledDisplay.h"
 #include "system.h"
 #include "periodTimer.h"
+#include "shutdownManager.h"
 
 #define I2CDRV_LINUX_BUS1 "/dev/i2c-1"
 #define I2C_DEVICE_ADDRESS 0x20
@@ -24,8 +26,14 @@ static unsigned char bottomPattern[10] = {0xA1, 0x80, 0x31, 0xB0, 0x90, 0xB0, 0x
 
 static int i2cFileDesc;
 
+static void Display_setDigitHardware(int digit);
 static void Display_setFilesGpio(char* fileName, char* value, int gpio);
 static void Display_setFilesGpioAll(char* fileName, char* value);
+
+static pthread_t displayThread;
+static void* Display_threadFunction(void* args);
+
+static int displayDigit;
 
 void Display_init(void)
 {
@@ -47,6 +55,29 @@ void Display_cleanup(void)
 }
 
 void Display_setDigit(int digit)
+{
+    displayDigit = digit;
+}
+
+void Display_startDisplaying(void)
+{
+    pthread_create(&displayThread, NULL, &Display_threadFunction, NULL);
+}
+
+void Display_stopDisplaying(void)
+{
+    pthread_join(displayThread, NULL);
+}
+
+static void* Display_threadFunction(void* args)
+{
+    while(!Shutdown_isShuttingDown()) {
+        Display_setDigitHardware(displayDigit);
+    }
+    return NULL;
+}
+
+static void Display_setDigitHardware(int digit)
 {
     if (digit > 99) {
         digit = 99;
