@@ -75,7 +75,7 @@ double* Buffer_getValues(int* amount)
         int index = bufferIndex-1;
     
         for (int i = 0; i<*amount; i++) {
-            if (index <= 0) {
+            if (index < 0) {
                 index = bufferSize-1;
             }
             values[i] = buffer[index];
@@ -121,7 +121,7 @@ void Buffer_resize(int size)
         buffer = tempBuffer;
         tempBuffer = NULL;
         bufferSize = size;
-        bufferIndex = amount % size;
+        bufferIndex = amount;
         bufferCount = amount;
     }
     pthread_mutex_unlock(&bufferMutex);
