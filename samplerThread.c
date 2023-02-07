@@ -10,6 +10,7 @@
 static long long sampleTotalTaken = 0;
 static double voltageAverage = 0;
 static double averageWeight = 0.001;
+static double sampleTakenInPeriod = 0;
 
 static pthread_t sampleThread;
 static void* Sampler_threadFunction(void* args);
@@ -56,6 +57,13 @@ long long Sampler_getNumSamplesTaken(void)
     return sampleTotalTaken;
 }
 
+int Sampler_getNumSamplesAndReset()
+{
+    int sampleTaken = sampleTakenInPeriod;
+    sampleTakenInPeriod = 0;
+    return sampleTaken;
+}
+
 static void* Sampler_threadFunction(void* args)
 {
     while (!Shutdown_isShuttingDown())
@@ -63,6 +71,7 @@ static void* Sampler_threadFunction(void* args)
         double voltage = LightSensor_getVoltage();
         Buffer_insert(voltage);
         sampleTotalTaken++;
+        sampleTakenInPeriod++;
         Sampler_calculateAverage(voltage);
         Timer_sleepForMs(1);
     }

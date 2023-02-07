@@ -15,7 +15,9 @@ static const double voltageHysteresis = 0.03;
 static pthread_t dipThread;
 static void* Dip_threadFunction(void* args);
 
-static int Dip_calculateDip();
+static int dipCount;
+
+static void Dip_calculateDip();
 
 void Dip_startDetecting(void)
 {
@@ -27,25 +29,30 @@ void Dip_stopDetecting(void)
     pthread_join(dipThread, NULL);
 }
 
+int Dip_getDipCount(void)
+{
+    return dipCount;
+}
+
 static void* Dip_threadFunction(void* args)
 {
     while(!Shutdown_isShuttingDown()) {
-        int dipCount = Dip_calculateDip();
+        Dip_calculateDip();
         Display_setDigit(dipCount);
         Timer_sleepForMs(100);
     }
     return NULL;
 }
 
-static int Dip_calculateDip()
+static void Dip_calculateDip()
 {
     int length = Sampler_getNumSamplesInHistory();
     double* history = Sampler_getHistory(&length);
     double average = Sampler_getAverageReading();
-    int dipCount = 0;
 
     bool isDip = false;
     double dipSample = 0;
+    dipCount = 0;
 
     for (int i = 0; i<length; i++) {
         double sample = history[i];
@@ -64,5 +71,4 @@ static int Dip_calculateDip()
         }
     }
     free(history);
-    return dipCount;
 }

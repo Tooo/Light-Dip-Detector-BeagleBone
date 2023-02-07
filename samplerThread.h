@@ -30,4 +30,7 @@ double Sampler_getAverageReading(void);
 // Get the total number of light level samples taken so far.
 long long Sampler_getNumSamplesTaken(void);
 
+// Get the number of samples then reset.
+int Sampler_getNumSamplesAndReset(void);
+
 #endif

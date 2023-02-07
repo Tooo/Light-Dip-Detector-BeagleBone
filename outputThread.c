@@ -5,6 +5,7 @@
 
 #include "outputThread.h"
 #include "samplerThread.h"
+#include "dipDetector.h"
 #include "shutdownManager.h"
 
 static pthread_t outputThread;
@@ -22,14 +23,20 @@ void Output_stopOutputing(void)
 
 static void* Output_threadFunction(void* args)
 {
-    for (int j=0; j < 5; j++) {
-        printf("Sample Count: %d", Sampler_getNumSamplesInHistory());
-        printf(" Size: %d\n", Sampler_getHistorySize());
-        int length = 10;
+    for (int j=0; j < 30; j++) {
+        printf("Samples/s = %d  ", Sampler_getNumSamplesAndReset());
+        printf("history size = %d  ", Sampler_getHistorySize());
+        printf("avg = %0.3f  ", Sampler_getAverageReading());
+        printf("dips = %d  \n", Dip_getDipCount());
+
+        int length = Sampler_getNumSamplesInHistory();
         double* history = Sampler_getHistory(&length);
 
-        for (int i = 0; i < length; i++) {
-            printf("%f ", history[i]);
+        length--;
+
+        while (length > 0) {
+            printf("%0.3f ", history[length]);
+            length -= 200;
         }
         printf("\n");
         free(history);

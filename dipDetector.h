@@ -8,4 +8,7 @@
 void Dip_startDetecting(void);
 void Dip_stopDetecting(void);
 
+// Get Dip count
+int Dip_getDipCount(void);
+
 #endif
