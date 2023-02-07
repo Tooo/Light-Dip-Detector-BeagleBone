@@ -1,15 +1,20 @@
-OUTFILE = light_sampler
+OUTFILE_1 = light_sampler
+OUTFILE_2 = noworky
 OUTDIR = $(HOME)/cmpt433/public/myApps
 
 CROSS_COMPILE = arm-linux-gnueabihf-
 CC_C = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow -pthread
-CFILES = main.c samplerThread.c dipDetector.c potThread.c outputThread.c udpListener.c system.c shutdownManager.c circularBuffer.c periodTimer.c lightSensor.c potentiometer.c ledDisplay.c
+CFILES_1 = main.c samplerThread.c dipDetector.c potThread.c outputThread.c udpListener.c system.c shutdownManager.c circularBuffer.c periodTimer.c lightSensor.c potentiometer.c ledDisplay.c
 
-all: light_sampler
+all: light_sampler noworky
 
 light_sampler:
-	$(CC_C) $(CFLAGS) $(CFILES) -o $(OUTDIR)/$(OUTFILE)
+	$(CC_C) $(CFLAGS) $(CFILES_1) -o $(OUTDIR)/$(OUTFILE_1)
+
+noworky:
+	$(CC_C) $(CFLAGS) noworky.c -o $(OUTDIR)/$(OUTFILE_2)
 
 clean:
-	rm $(OUTDIR)/$(OUTFILE)
+	rm $(OUTDIR)/$(OUTFILE_1) $(OUTDIR)/$(OUTFILE_2)
+
