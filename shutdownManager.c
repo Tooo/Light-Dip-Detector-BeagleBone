@@ -6,6 +6,7 @@
 #include "dipDetector.h"
 #include "ledDisplay.h"
 #include "outputThread.h"
+#include "udpListener.h"
 
 static pthread_mutex_t shutdownMutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t shutdownCond = PTHREAD_COND_INITIALIZER;
@@ -19,10 +20,12 @@ void Shutdown_init(void)
     Dip_startDetecting();
     Display_startDisplaying();
     Output_startOutputing();
+    Udp_startListening();
 }
 
 void Shutdown_cleanup(void)
 {
+    Udp_stopListening();
     Output_stopOutputing();
     Display_stopDisplaying();
     Dip_stopDetecting();

@@ -23,7 +23,7 @@ void Output_stopOutputing(void)
 
 static void* Output_threadFunction(void* args)
 {
-    for (int j=0; j < 30; j++) {
+    while (!Shutdown_isShuttingDown()) {
         printf("Samples/s = %d  ", Sampler_getNumSamplesAndReset());
         printf("history size = %d  ", Sampler_getNumSamplesInHistory());
         printf("avg = %0.3f  ", Sampler_getAverageReading());
