@@ -24,7 +24,14 @@ void swapContent(double *d1, double *d2)
  */
 void tradeArrays(double *array1, double *array2, int size)
 {
-	unsigned int i;
+	// Bug was here:
+	// i was unsigned int which only holds positive numbers.
+	// It goes from size-1 and subtracts once in the loop,
+	// The idea is after 0 should exit the loop.
+	// However, since it's a unsigned int, i overflows and goes to 4294967295
+	// Changing the variable to an int would allow the loop to work,
+	// Since i can be negative, and once it is -1, it will exit the loop
+	int i;
 	for (i = size-1; i >= 0; i--) {
 		swapContent(array1+i, array2+i);
 	}
