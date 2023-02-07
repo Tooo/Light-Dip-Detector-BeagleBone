@@ -8,6 +8,7 @@
 #include "lightSensor.h"
 #include "potentiometer.h"
 #include "ledDisplay.h"
+#include "periodTimer.h"
 
 static void main_init(void);
 static void main_cleanup(void);
@@ -27,13 +28,14 @@ static void main_init(void)
     LightSensor_init();
     Pot_init();
     Display_init();
+    Period_init();
     Shutdown_init();
 }
 
 static void main_cleanup(void)
 {
     Shutdown_cleanup();
-    printf("cleanup\n");
+    Period_cleanup();
     Display_cleanup();
     Pot_cleanup();
     LightSensor_cleanup();

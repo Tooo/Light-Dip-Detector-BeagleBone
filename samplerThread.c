@@ -6,6 +6,7 @@
 #include "lightSensor.h"
 #include "periodTimer.h"
 #include "shutdownManager.h"
+#include "periodTimer.h"
 
 static long long sampleTotalTaken = 0;
 static double voltageAverage = 0;
@@ -73,6 +74,7 @@ static void* Sampler_threadFunction(void* args)
         sampleTotalTaken++;
         sampleTakenInPeriod++;
         Sampler_calculateAverage(voltage);
+        Period_markEvent(PERIOD_EVENT_SAMPLE_LIGHT);
         Timer_sleepForMs(1);
     }
     return NULL;
@@ -83,6 +85,6 @@ static void Sampler_calculateAverage(double voltage)
     if (sampleTotalTaken == 1) {
         voltageAverage = voltage;
     } else {
-        voltageAverage = averageWeight * voltage + (1-averageWeight) * voltageAverage;
+        voltageAverage = averageWeight * voltage + (1.0-averageWeight) * voltageAverage;
     }
 }
