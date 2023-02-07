@@ -25,7 +25,7 @@ static void* Output_threadFunction(void* args)
 {
     for (int j=0; j < 30; j++) {
         printf("Samples/s = %d  ", Sampler_getNumSamplesAndReset());
-        printf("history size = %d  ", Sampler_getHistorySize());
+        printf("history size = %d  ", Sampler_getNumSamplesInHistory());
         printf("avg = %0.3f  ", Sampler_getAverageReading());
         printf("dips = %d  \n", Dip_getDipCount());
 
