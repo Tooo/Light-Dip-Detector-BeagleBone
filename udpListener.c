@@ -46,7 +46,7 @@ void Udp_stopListening(void)
 static void* Udp_threadFunction(void* args)
 {
     Udp_serverInit();
-    char* previousMessage = "";
+    char previousMessage[MAX_LEN] = "";
 
     while (!Shutdown_isShuttingDown()){
         unsigned int sin_len = sizeof(sinRemote);
@@ -57,21 +57,23 @@ static void* Udp_threadFunction(void* args)
 
         messageRx[bytesRx] = '\0';
 
-        if (strcmp(messageRx, "")) {
+        // Just "enter"
+        if (bytesRx == 1) {
             strcpy(messageRx, previousMessage);
         }
 
-        if (strcmp(messageRx, "help")) {
+        // Menu options
+        if (strncmp(messageRx, "help", 4) == 0) {
             Udp_help();
-        } else if (strcmp(messageRx, "count")) {
+        } else if (strncmp(messageRx, "count", 5) == 0) {
             Udp_count();
-        } else if (strcmp(messageRx, "length")) {
+        } else if (strncmp(messageRx, "length", 5) == 0) {
             Udp_length();
-        } else if (strcmp(messageRx, "history")) {
+        } else if (strncmp(messageRx, "history", 7) == 0) {
             Udp_history();
-        } else if (strcmp(messageRx, "dips")) {
+        } else if (strncmp(messageRx, "dips", 4) == 0) {
             Udp_dips();
-        } else if (strcmp(messageRx, "stop")) {
+        } else if (strncmp(messageRx, "stop", 4) == 0) {
             Udp_stop();
         } else if (strstr(messageRx, "get") != NULL) {
             Udp_get(10);
@@ -79,6 +81,7 @@ static void* Udp_threadFunction(void* args)
             Udp_unknown();
         }     
 
+        strcpy(previousMessage, messageRx);
 
     }
     close (socketDescriptor);
@@ -127,7 +130,7 @@ static void Udp_length(void)
 
     char lengthStr2[MAX_LEN/2];
     int holding = Sampler_getNumSamplesInHistory();
-    snprintf(lengthStr, MAX_LEN, "Currently holding %4d samples.\n", holding);
+    snprintf(lengthStr2, MAX_LEN, "Currently holding %4d samples.\n", holding);
 
     char messageTx[MAX_LEN];
     snprintf(messageTx, MAX_LEN, "%s%s\n", lengthStr, lengthStr2);
