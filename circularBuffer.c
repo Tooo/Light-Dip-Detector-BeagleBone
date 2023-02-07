@@ -25,7 +25,7 @@ void Buffer_init(void)
         bufferCount = 0;
         bufferIndex = 0;
 
-        buffer = malloc((bufferSize)*sizeof(*buffer));
+        buffer = malloc((bufferSize+1)*sizeof(*buffer));
         tempBuffer = NULL;
         Buffer_clearBuffer();
     }
@@ -48,7 +48,7 @@ void Buffer_insert(double value)
     {
         buffer[bufferIndex] = value;
         bufferIndex++;
-        bufferIndex = bufferIndex % bufferSize;
+        bufferIndex = bufferIndex % (bufferSize-1);
         if (bufferCount < bufferSize) {
             bufferCount++;
         }
@@ -66,11 +66,11 @@ double* Buffer_getValues(int* amount)
 
     pthread_mutex_lock(&bufferMutex);
     {
-        if (*amount >= bufferCount) {
+        if (*amount > bufferCount) {
             *amount = bufferCount;
         }
 
-        values = malloc(*amount*sizeof(*buffer));
+        values = malloc((*amount+1)*sizeof(*buffer));
 
         int index = bufferIndex-1;
     
