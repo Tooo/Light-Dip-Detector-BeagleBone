@@ -3,6 +3,7 @@
 #include "shutdownManager.h"
 #include "samplerThread.h"
 #include "potThread.h"
+#include "dipDetector.h"
 #include "ledDisplay.h"
 #include "outputThread.h"
 
@@ -15,6 +16,7 @@ void Shutdown_init(void)
     isShuttingDown = false;
     Sampler_startSampling();
     Pot_startInputing();
+    Dip_startDetecting();
     Display_startDisplaying();
     Output_startOutputing();
 }
@@ -23,6 +25,7 @@ void Shutdown_cleanup(void)
 {
     Output_stopOutputing();
     Display_stopDisplaying();
+    Dip_stopDetecting();
     Pot_stopInputing();
     Sampler_stopSampling();
 }

@@ -44,33 +44,25 @@ static int Dip_calculateDip()
     double average = Sampler_getAverageReading();
     int dipCount = 0;
 
-    bool isDipBelow = false;
-    bool isDipAbove = false;
+    bool isDip = false;
+    double dipSample = 0;
 
     for (int i = 0; i<length; i++) {
         double sample = history[i];
+        double difference = average - sample;
 
-        double difference = abs(sample - average);
-        // printf("DIP - sample:%f, avg: %f, diff: %f\n", sample, average, difference);
-
-        if (isDipAbove) {
-            if (sample - average < voltageDifference + voltageHysteresis) {
-                isDipAbove = false;
-            }
-        } else if (isDipBelow) {
-            if (average - sample < voltageDifference + voltageHysteresis) {
-                isDipBelow = false;
+        if (isDip) {
+            if (sample > dipSample + voltageHysteresis) {
+            //if (difference < voltageDifference + voltageHysteresis) {
+                //printf("Leave Dip: %f, %f\n", sample, dipSample);
+                isDip = false;
             }
         } else if (difference > voltageDifference) {
+            dipSample = sample;
             dipCount++;
-            if (sample > average) {
-                isDipAbove = true;
-            } else {
-                isDipBelow = true;
-            }
+            isDip = true;
         }
     }
-    
     free(history);
     return dipCount;
 }
