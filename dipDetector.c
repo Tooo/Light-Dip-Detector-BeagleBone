@@ -51,21 +51,17 @@ static void Dip_calculateDip()
     double* history = Sampler_getHistory(&length);
 
     bool isDip = false;
-    double dipSample = 0;
     dipCount = 0;
 
     for (int i = 0; i<length; i++) {
         double sample = history[i];
-        double difference = average - sample;
 
         if (isDip) {
-            if (sample > dipSample + voltageHysteresis) {
-            //if (difference < voltageDifference + voltageHysteresis) {
+            if (sample >= average - voltageDifference + voltageHysteresis) {
                 isDip = false;
+                dipCount++;
             } 
-        } else if (difference > voltageDifference) {
-            dipSample = sample;
-            dipCount++;
+        } else if (sample <= average - voltageDifference) {
             isDip = true;
         }
     }
