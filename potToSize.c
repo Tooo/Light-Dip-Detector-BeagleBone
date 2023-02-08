@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-#include "potThread.h"
+#include "potToSize.h"
 #include "potentiometer.h"
 #include "samplerThread.h"
 #include "shutdownManager.h"

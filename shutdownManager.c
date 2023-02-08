@@ -2,7 +2,7 @@
 
 #include "shutdownManager.h"
 #include "samplerThread.h"
-#include "potThread.h"
+#include "potToSize.h"
 #include "dipDetector.h"
 #include "ledDisplay.h"
 #include "outputThread.h"
