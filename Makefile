@@ -5,7 +5,7 @@ OUTDIR = $(HOME)/cmpt433/public/myApps
 CROSS_COMPILE = arm-linux-gnueabihf-
 CC_C = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow -pthread
-CFILES_1 = main.c sampler.c dipDetector.c potToSize.c outputThread.c udpListener.c system.c shutdownManager.c circularBuffer.c periodTimer.c lightSensor.c potentiometer.c ledDisplay.c
+CFILES_1 = main.c sampler.c dipDetector.c potToSize.c output.c udpListener.c system.c shutdownManager.c circularBuffer.c periodTimer.c lightSensor.c potentiometer.c ledDisplay.c
 
 all: light_sampler noworky
 

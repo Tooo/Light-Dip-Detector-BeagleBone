@@ -5,7 +5,7 @@
 #include "potToSize.h"
 #include "dipDetector.h"
 #include "ledDisplay.h"
-#include "outputThread.h"
+#include "output.h"
 #include "udpListener.h"
 
 static pthread_mutex_t shutdownMutex = PTHREAD_MUTEX_INITIALIZER;

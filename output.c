@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "outputThread.h"
+#include "output.h"
 #include "sampler.h"
 #include "dipDetector.h"
 #include "shutdownManager.h"
