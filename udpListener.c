@@ -49,6 +49,7 @@ static void* Udp_threadFunction(void* args)
 {
     Udp_serverInit();
     char previousMessage[MAX_LEN] = "";
+    int getCount = 0;
 
     while (!Shutdown_isShuttingDown()){
         unsigned int sin_len = sizeof(sinRemote);
@@ -77,8 +78,17 @@ static void* Udp_threadFunction(void* args)
             Udp_dips();
         } else if (strncmp(messageRx, "stop", 4) == 0) {
             Udp_stop();
-        } else if (strstr(messageRx, "get") != NULL) {
-            Udp_get(10);
+        } else if (strncmp(messageRx, "get", 3) == 0) {
+            if (bytesRx != 0) {
+                char charNum[bytesRx-4];
+                int index = 4;
+                for (int i = 0; i<bytesRx-5; i++) {
+                    charNum[i] = messageRx[index++];
+                }
+                charNum[bytesRx-5] = '\0';
+                getCount = atoi(charNum);
+            } 
+            Udp_get(getCount);
         } else {
             Udp_unknown();
         }     
@@ -151,10 +161,14 @@ static void Udp_history(void)
 
 static void Udp_get(int count)
 {
-    if (count < Sampler_getNumSamplesInHistory()) {
-        int length = Sampler_getNumSamplesInHistory();
+    int length = Sampler_getNumSamplesInHistory();
+    if (count <= 0) {
+        Udp_send("Get Invalid size.\n");
+    }
+
+    if (count > length) {
         char messageTx[MAX_LEN];
-        snprintf(messageTx, MAX_LEN, "Get size invalid. There are %d samples.\n", length);
+        snprintf(messageTx, MAX_LEN, "Get size %d invalid. There are %d samples.\n", count, length);
         Udp_send(messageTx);
         return;
     }
@@ -165,11 +179,11 @@ static void Udp_get(int count)
 static void Udp_sendArray(double* array, int length)
 {
     int index = 0;
-    while (index < length - 1) {
+    while (index < length) {
         char messageTx[MAX_LEN] = "";
         int packetSize;
-        if (index > length - MAX_PACKET_SIZE - 1) {
-            packetSize = (length - index) % MAX_PACKET_SIZE;
+        if (index > length - MAX_PACKET_SIZE) {
+            packetSize = length - index;
         } else {
             packetSize = MAX_PACKET_SIZE;
         }
