@@ -1,5 +1,5 @@
 // udpListener.h
-// Module to manage udp server thread
+// Module to manage UDP server thread
 // Thread looping to receive commands
 #ifndef _UDP_LISTENER_H_
 #define _UDP_LISTENER_H_

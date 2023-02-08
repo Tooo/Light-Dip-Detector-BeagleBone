@@ -8,14 +8,17 @@
 #include "shutdownManager.h"
 #include "periodTimer.h"
 
+// Sampler Values
+static const double averageWeight = 0.001;
 static long long sampleTotalTaken = 0;
 static double voltageAverage = 0;
-static double averageWeight = 0.001;
 static double sampleTakenInPeriod = 0;
 
+// Sampler Thread
 static pthread_t sampleThread;
 static void* Sampler_threadFunction(void* args);
 
+// Sampler Functions
 static void Sampler_calculateAverage(double voltage);
 
 void Sampler_startSampling(void)

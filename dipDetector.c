@@ -9,14 +9,19 @@
 #include "periodTimer.h"
 #include "ledDisplay.h"
 
-static const double voltageDifference = 0.1;
-static const double voltageHysteresis = 0.03;
+// voltage difference and hysteresis for dips
+#define VOLTAGE_DIP_DIFF 0.1
+#define VOLTAGE_HYSTERESIS 0.03
 
+// dip detection thread
+static const int dipSleepMs = 100;
 static pthread_t dipThread;
 static void* Dip_threadFunction(void* args);
 
+// Curent amount of dips
 static int dipCount;
 
+// Calculate dips on current history
 static void Dip_calculateDip();
 
 void Dip_startDetecting(void)
@@ -39,7 +44,7 @@ static void* Dip_threadFunction(void* args)
     while(!Shutdown_isShuttingDown()) {
         Dip_calculateDip();
         Display_setDigit(dipCount);
-        Timer_sleepForMs(100);
+        Timer_sleepForMs(dipSleepMs);
     }
     return NULL;
 }
@@ -57,11 +62,11 @@ static void Dip_calculateDip()
         double sample = history[i];
 
         if (isDip) {
-            if (sample >= average - voltageDifference + voltageHysteresis) {
+            if (sample >= average - VOLTAGE_DIP_DIFF + VOLTAGE_HYSTERESIS) {
                 isDip = false;
                 dipCount++;
             } 
-        } else if (sample <= average - voltageDifference) {
+        } else if (sample <= average - VOLTAGE_DIP_DIFF) {
             isDip = true;
         }
     }

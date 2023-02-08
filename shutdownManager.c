@@ -8,8 +8,11 @@
 #include "output.h"
 #include "udpListener.h"
 
+// Mutex variables
 static pthread_mutex_t shutdownMutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t shutdownCond = PTHREAD_COND_INITIALIZER;
+
+// Shutdown boolean
 static bool isShuttingDown;
 
 void Shutdown_init(void)

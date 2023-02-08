@@ -4,6 +4,7 @@
 
 #include "circularBuffer.h"
 
+// Mutex to protect the buffer
 static pthread_mutex_t bufferMutex = PTHREAD_MUTEX_INITIALIZER;
 
 // Buffer and tempBuffer for resize

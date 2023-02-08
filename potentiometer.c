@@ -4,6 +4,7 @@
 #include "potentiometer.h"
 #include "system.h"
 
+// Voltage File
 static char* voltageFile = "/sys/bus/iio/devices/iio:device0/in_voltage0_raw";
 
 void Pot_init(void)

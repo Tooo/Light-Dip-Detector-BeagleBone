@@ -7,6 +7,7 @@
 #include "shutdownManager.h"
 #include "periodTimer.h"
 
+// Potentiometer Thread
 static pthread_t potThread;
 static void* Pot_threadFunction(void* args);
 

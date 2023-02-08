@@ -8,31 +8,40 @@
 #include "periodTimer.h"
 #include "shutdownManager.h"
 
+// I2C bus and address
 #define I2CDRV_LINUX_BUS1 "/dev/i2c-1"
 #define I2C_DEVICE_ADDRESS 0x20
 
+// I2C values for LED Display
 #define REG_DIRA 0x00
 #define REG_DIRB 0x01
 #define REG_OUTA 0x14
 #define REG_OUTB 0x15
 
+// Files for LED Display
 #define GPIO_DIRECTION_FILE "/sys/class/gpio/gpio%d/direction"
 #define GPIO_VALUE_FILE "/sys/class/gpio/gpio%d/value"
 
-static int gpioDigits[] = {61, 44};
+// GPIO values for LED Display
+static int gpioDigits[2] = {61, 44};
 
+// Top and Bottom values for LED Display Patterns
 static unsigned char topPattern[10] = {0x86, 0x12, 0x0E, 0x06, 0x8A, 0x8C, 0x8C, 0x14, 0x8E, 0x8E};
 static unsigned char bottomPattern[10] = {0xA1, 0x80, 0x31, 0xB0, 0x90, 0xB0, 0xB1, 0x04, 0xB1, 0x90};
 
+// I2C file descriptor
 static int i2cFileDesc;
 
+// File setup functions
 static void Display_setDigitHardware(int digit);
 static void Display_setFilesGpio(char* fileName, char* value, int gpio);
 static void Display_setFilesGpioAll(char* fileName, char* value);
 
+// Display thread
 static pthread_t displayThread;
 static void* Display_threadFunction(void* args);
 
+// Displaying digit
 static int displayDigit;
 
 void Display_init(void)

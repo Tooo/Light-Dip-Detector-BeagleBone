@@ -1,6 +1,5 @@
 // main.c
 // Main Thread of Light Sampler program
-
 #include <stdio.h>
 
 #include "shutdownManager.h"
@@ -10,6 +9,7 @@
 #include "ledDisplay.h"
 #include "periodTimer.h"
 
+// Initialize/cleanup the module's data structures.
 static void main_init(void);
 static void main_cleanup(void);
 

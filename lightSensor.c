@@ -3,9 +3,12 @@
 #include "lightSensor.h"
 #include "system.h"
 
+// Voltage file
 static char* voltageFile = "/sys/bus/iio/devices/iio:device0/in_voltage1_raw";
-static double voltageRef = 1.8;
-static int voltageMax = 4095;
+
+// Voltage values
+#define VOLTAGE_REF 1.8
+#define VOLTAGE_MAX 4095
 
 void LightSensor_init(void)
 {
@@ -23,5 +26,5 @@ double LightSensor_getVoltage(void)
     System_readFile(voltageFile, buffer);
     
     int value = atoi(buffer);
-    return ((double)value / voltageMax) * voltageRef;
+    return ((double)value / VOLTAGE_MAX) * VOLTAGE_REF;
 }

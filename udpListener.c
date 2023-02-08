@@ -10,18 +10,23 @@
 #include "sampler.h"
 #include "dipDetector.h"
 
+// UDP values
 #define MAX_LEN 1024
 #define MAX_PACKET_SIZE 20
 #define PORT 12345
 
+// UDP variables
 static int socketDescriptor;
 static struct sockaddr_in sinRemote;
 
+// UDP Thread
 static pthread_t udpThread;
 static void* Udp_threadFunction(void* args);
 
+// Intialize Server function
 static void Udp_serverInit(void);
 
+// UDP Server Commands
 static void Udp_help(void);
 static void Udp_history(void);
 static void Udp_count(void);
@@ -33,6 +38,7 @@ static void Udp_dips(void);
 static void Udp_stop(void);
 static void Udp_unknown(void);
 
+// Return UDP message
 static void Udp_send(char* messageTx);
 
 void Udp_startListening(void)

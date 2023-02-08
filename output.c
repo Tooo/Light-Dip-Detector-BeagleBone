@@ -10,9 +10,11 @@
 #include "periodTimer.h"
 #include "potentiometer.h"
 
+// Output Thread
 static pthread_t outputThread;
 static void* Output_threadFunction(void* args);
 
+// Output Functions
 static void Output_printStats(void);
 static void Output_printTimingJitter(void);
 static void Output_printEvery200Samples(void);
