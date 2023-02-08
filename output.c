@@ -46,11 +46,11 @@ static void* Output_threadFunction(void* args)
 
 static void Output_printStats(void)
 {
-    printf("Samples/s = %d  ", Sampler_getNumSamplesAndReset());
-    printf("Pot Value = %d  ", Pot_getValue());
-    printf("history size = %d  ", Sampler_getNumSamplesInHistory());
+    printf("Samples/s = %3d  ", Sampler_getNumSamplesAndReset());
+    printf("Pot Value = %4d  ", Pot_getValue());
+    printf("history size = %4d  ", Sampler_getNumSamplesInHistory());
     printf("avg = %0.3f  ", Sampler_getAverageReading());
-    printf("dips = %d  ", Dip_getDipCount());
+    printf("dips = %3d  ", Dip_getDipCount());
 }
 
 static void Output_printTimingJitter(void)
