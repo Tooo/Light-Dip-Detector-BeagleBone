@@ -8,6 +8,7 @@
 #include "dipDetector.h"
 #include "shutdownManager.h"
 #include "periodTimer.h"
+#include "potentiometer.h"
 
 static pthread_t outputThread;
 static void* Output_threadFunction(void* args);
@@ -44,6 +45,7 @@ static void* Output_threadFunction(void* args)
 static void Output_printStats(void)
 {
     printf("Samples/s = %d  ", Sampler_getNumSamplesAndReset());
+    printf("Pot Value = %d  ", Pot_getValue());
     printf("history size = %d  ", Sampler_getNumSamplesInHistory());
     printf("avg = %0.3f  ", Sampler_getAverageReading());
     printf("dips = %d  ", Dip_getDipCount());
