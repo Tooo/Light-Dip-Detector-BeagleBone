@@ -79,7 +79,7 @@ static void* Udp_threadFunction(void* args)
         } else if (strncmp(messageRx, "stop", 4) == 0) {
             Udp_stop();
         } else if (strncmp(messageRx, "get", 3) == 0) {
-            if (bytesRx != 0) {
+            if (bytesRx != 1) {
                 char charNum[bytesRx-4];
                 int index = 4;
                 for (int i = 0; i<bytesRx-5; i++) {
