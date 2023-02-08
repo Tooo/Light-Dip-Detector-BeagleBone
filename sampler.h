@@ -1,9 +1,9 @@
-// samplerThread.h
+// sampler.h
 // Module to sample light levels in the background (thread).
 // It provides access to a reading history of configurable
 // length, the average light level, and the number of samples taken.
-#ifndef _SAMPLER_THREAD_H_
-#define _SAMPLER_THREAD_H_
+#ifndef _SAMPLER_H_
+#define _SAMPLER_H_
 
 // Begin/end the background thread which samples light levels.
 void Sampler_startSampling(void);

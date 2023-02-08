@@ -1,7 +1,7 @@
 #include <pthread.h>
 
 #include "shutdownManager.h"
-#include "samplerThread.h"
+#include "sampler.h"
 #include "potToSize.h"
 #include "dipDetector.h"
 #include "ledDisplay.h"

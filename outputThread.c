@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 #include "outputThread.h"
-#include "samplerThread.h"
+#include "sampler.h"
 #include "dipDetector.h"
 #include "shutdownManager.h"
 #include "periodTimer.h"

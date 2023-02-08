@@ -3,7 +3,7 @@
 
 #include "potToSize.h"
 #include "potentiometer.h"
-#include "samplerThread.h"
+#include "sampler.h"
 #include "shutdownManager.h"
 #include "periodTimer.h"
 

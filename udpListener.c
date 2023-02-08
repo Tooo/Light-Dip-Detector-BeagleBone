@@ -7,7 +7,7 @@
 
 #include "udpListener.h"
 #include "shutdownManager.h"
-#include "samplerThread.h"
+#include "sampler.h"
 #include "dipDetector.h"
 
 #define MAX_LEN 1024

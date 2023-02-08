@@ -4,7 +4,7 @@
 #include <math.h>
 
 #include "dipDetector.h"
-#include "samplerThread.h"
+#include "sampler.h"
 #include "shutdownManager.h"
 #include "periodTimer.h"
 #include "ledDisplay.h"
