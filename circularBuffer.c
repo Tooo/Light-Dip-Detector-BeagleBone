@@ -48,7 +48,7 @@ void Buffer_insert(double value)
     {
         buffer[bufferIndex] = value;
         bufferIndex++;
-        bufferIndex = bufferIndex % (bufferSize-1);
+        bufferIndex = bufferIndex % bufferSize;
         if (bufferCount < bufferSize) {
             bufferCount++;
         }
@@ -95,7 +95,7 @@ void Buffer_resize(int size)
 
     pthread_mutex_lock(&bufferMutex);
     {
-        tempBuffer = malloc((size)*sizeof(*buffer));
+        tempBuffer = malloc((size+1)*sizeof(*buffer));
 
         for (int i = 0; i<size; i++) {
             tempBuffer[i] = 0;
@@ -120,6 +120,7 @@ void Buffer_resize(int size)
 
         buffer = tempBuffer;
         tempBuffer = NULL;
+
         bufferSize = size;
         bufferIndex = amount;
         bufferCount = amount;

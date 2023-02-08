@@ -11,6 +11,7 @@
 #include "dipDetector.h"
 
 #define MAX_LEN 1024
+#define MAX_PACKET_SIZE 20
 #define PORT 12345
 
 static int socketDescriptor;
@@ -27,6 +28,7 @@ static void Udp_count(void);
 static void Udp_length(void);
 static void Udp_history(void);
 static void Udp_get(int count);
+static void Udp_sendArray(double* array, int length);
 static void Udp_dips(void);
 static void Udp_stop(void);
 static void Udp_unknown(void);
@@ -118,7 +120,7 @@ static void Udp_count(void)
 {
     char messageTx[MAX_LEN];
     long long count = Sampler_getNumSamplesTaken();
-    snprintf(messageTx, MAX_LEN, "Number of samples taken = %lld\n", count);
+    snprintf(messageTx, MAX_LEN, "Number of samples taken = %lld.\n", count);
     Udp_send(messageTx);
 }
 
@@ -126,26 +128,61 @@ static void Udp_length(void)
 {
     char lengthStr[MAX_LEN/2];
     int size = Sampler_getHistorySize();
-    snprintf(lengthStr, MAX_LEN, "History can hold  %4d samples.\n", size);
+    snprintf(lengthStr, MAX_LEN/2, "History can hold  %4d samples.\n", size);
 
     char lengthStr2[MAX_LEN/2];
     int holding = Sampler_getNumSamplesInHistory();
-    snprintf(lengthStr2, MAX_LEN, "Currently holding %4d samples.\n", holding);
+    snprintf(lengthStr2, MAX_LEN/2, "Currently holding %4d samples.\n", holding);
 
     char messageTx[MAX_LEN];
-    snprintf(messageTx, MAX_LEN, "%s%s\n", lengthStr, lengthStr2);
+    snprintf(messageTx, MAX_LEN, "%s%s", lengthStr, lengthStr2);
     Udp_send(messageTx);
 }
 
 static void Udp_history(void)
 {
+    int length = Sampler_getNumSamplesInHistory();
+    double* history = Sampler_getHistory(&length);
 
+    Udp_sendArray(history, length);
 
+    free(history);
 }
 
 static void Udp_get(int count)
 {
+    if (count < Sampler_getNumSamplesInHistory()) {
+        int length = Sampler_getNumSamplesInHistory();
+        char messageTx[MAX_LEN];
+        snprintf(messageTx, MAX_LEN, "Get size invalid. There are %d samples.\n", length);
+        Udp_send(messageTx);
+        return;
+    }
+    double* history = Sampler_getHistory(&count);
+    Udp_sendArray(history, count);
+}
 
+static void Udp_sendArray(double* array, int length)
+{
+    int index = 0;
+    while (index < length - 1) {
+        char messageTx[MAX_LEN] = "";
+        int packetSize;
+        if (index > length - MAX_PACKET_SIZE - 1) {
+            packetSize = (length - index) % MAX_PACKET_SIZE;
+        } else {
+            packetSize = MAX_PACKET_SIZE;
+        }
+
+        for (int i = 0; i < packetSize; i++) {
+            char sample[MAX_LEN/(MAX_PACKET_SIZE+1)];
+            snprintf(sample, MAX_LEN/(MAX_PACKET_SIZE+1), "%0.3f, ", array[index]);
+            index++;
+            strncat(messageTx, sample, MAX_LEN/(MAX_PACKET_SIZE+1));
+        }
+        strncat(messageTx, "\n", MAX_LEN/(MAX_PACKET_SIZE+1));
+        Udp_send(messageTx);
+    }
 }
 
 static void Udp_dips(void)

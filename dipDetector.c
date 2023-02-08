@@ -47,8 +47,8 @@ static void* Dip_threadFunction(void* args)
 static void Dip_calculateDip()
 {
     int length = Sampler_getNumSamplesInHistory();
-    double* history = Sampler_getHistory(&length);
     double average = Sampler_getAverageReading();
+    double* history = Sampler_getHistory(&length);
 
     bool isDip = false;
     double dipSample = 0;
@@ -61,9 +61,8 @@ static void Dip_calculateDip()
         if (isDip) {
             if (sample > dipSample + voltageHysteresis) {
             //if (difference < voltageDifference + voltageHysteresis) {
-                //printf("Leave Dip: %f, %f\n", sample, dipSample);
                 isDip = false;
-            }
+            } 
         } else if (difference > voltageDifference) {
             dipSample = sample;
             dipCount++;
