@@ -174,6 +174,7 @@ static void Udp_get(int count)
     }
     double* history = Sampler_getHistory(&count);
     Udp_sendArray(history, count);
+    free(history);
 }
 
 static void Udp_sendArray(double* array, int length)
