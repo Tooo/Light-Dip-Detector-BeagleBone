@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <pthread.h>
 
 #include "circularBuffer.h"
@@ -71,8 +72,12 @@ double* Buffer_getValues(int* amount)
         }
 
         values = malloc((*amount+1)*sizeof(*buffer));
+        if (!values) {
+            printf("ERROR: Cannot malloc values.\n");
+            exit(-1);
+        }
 
-        int index = bufferIndex-1;
+        int index = bufferIndex - 1;
     
         for (int i = 0; i<*amount; i++) {
             if (index < 0) {
@@ -100,18 +105,25 @@ void Buffer_resize(int size)
         for (int i = 0; i<size; i++) {
             tempBuffer[i] = 0;
         }
-
-        int amount = size;
-
-        if (size > bufferCount) {
-            amount = bufferCount;
+        if (!tempBuffer) {
+            printf("ERROR: Cannot malloc temp Buffer.\n");
+            exit(1);
         }
 
-        int index = bufferIndex;
+        int amount;
+        if (size > bufferCount) {
+            amount = bufferCount;
+        } else {
+            amount = size;
+        }
 
-        for (int i = 0; i<amount; i++) {
+        int index = bufferIndex -1;
+        for (int i = amount-1; i>=0; i--) {
+            if (index < 0) {
+                index = bufferSize-1;
+            }
             tempBuffer[i] = buffer[index];
-            index++;
+            index--;
             index = index % bufferSize;
         }
 
@@ -122,7 +134,7 @@ void Buffer_resize(int size)
         tempBuffer = NULL;
 
         bufferSize = size;
-        bufferIndex = amount;
+        bufferIndex = amount % size;
         bufferCount = amount;
     }
     pthread_mutex_unlock(&bufferMutex);

@@ -16,7 +16,6 @@ static void main_cleanup(void);
 int main(void)
 {
     main_init();
-
     Shutdown_wait();
     main_cleanup();
     return 0;
