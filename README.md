@@ -1,10 +1,8 @@
 # Light Dip Detector BeagleBone
-Detect the number of light dips from the light sensor.
-Change the light sampling buffer size with the potentiometer.
-Display the number of dips on LED 2-character display.
-Display stats every second to the terminal.
-Listen to UDP server to respond to commands.
+Detect the number of light dips with your BeagleBone
 
+## Pre-requisite
+1. Install photoresistor light sensor
 
 ## Installation
 1. Clone the repository
@@ -12,12 +10,12 @@ Listen to UDP server to respond to commands.
 (host)$ git clone https://github.com/Tooo/Light-Dip-Detector-BeagleBone.git
 ```
 
-2. Make excutable file on the host
+2. Make executable file on the host
 ```bash
 (host)$ make
 ```
 
-3. Run excutable on the BeagleBone
+3. Run executable on the BeagleBone
 ```bash
 (bbg)$ ./light_sampler
 ```
@@ -26,6 +24,13 @@ Listen to UDP server to respond to commands.
 ```bash
 (host)$ netcat -u 192.168.7.2:12345
 ```
+
+## Features
+- Detect the number of light dips from the light sensor.
+- Change the light sampling buffer size with the potentiometer.
+- Display the number of dips on LED 2-character display.
+- Display stats every second to the terminal.
+- Listen to UDP server to respond to commands.
 
 ## Commands
 | Command | Description | 
